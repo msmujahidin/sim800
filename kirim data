@@ -1,0 +1,42 @@
+void kirimData()
+{
+  SIM800.println("AT+CSQ"); // Mengecek Kualitas Sinyal
+  ShowSerialData();
+
+  SIM800.println("AT+CGATT?"); //Melihat Support tidaknya GPRS
+  delay(100);
+  ShowSerialData();
+
+  SIM800.println("AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"");
+  delay(1000);
+  ShowSerialData();
+
+  SIM800.println("AT+SAPBR=3,1,\"APN\",\"internet\"");
+  delay(1000);
+  ShowSerialData();
+
+  SIM800.println("AT+SAPBR=1,1");
+  delay(1000);
+  ShowSerialData();
+
+  SIM800.println("AT+HTTPINIT"); //Persiapan HTTP request
+  delay(1000); 
+  ShowSerialData();
+
+  //pengiriman data ke alamat URL web server
+  SIM800.print("AT+HTTPPARA=\"URL\",\"http://ulindev.com/project/tes/dataku.php?nilai=");
+  SIM800.print(random(0,100));
+  delay(2000);
+  ShowSerialData();
+
+  SIM800.println("AT+HTTPACTION=0"); //submit request 
+  delay(5000);
+  ShowSerialData();
+
+  SIM800.println("");
+  delay(100);
+
+  SIM800.println("AT+HTTPTERM");//baca data dari website yang diakses
+  delay(300);
+  ShowSerialData();
+}
